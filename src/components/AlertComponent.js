@@ -15,10 +15,10 @@ const AlertComponent = (props) => {
     }
 
     return (
-        <Alert key="primary" variant="danger" style={{ marginTop: 5, marginLeft: 5, marginRight: 5 }}
+        <Alert id="alert" key="primary" variant="danger" style={{ marginTop: 5, marginLeft: 5, marginRight: 5 }}
             onClose={handleClose} dismissible>
-            <Alert.Heading>{props.alertOptions.title}</Alert.Heading>
-            <p>{props.alertOptions.body}</p>
+            <Alert.Heading id="heading">{props.alertOptions.title}</Alert.Heading>
+            <p id="body">{props.alertOptions.body}</p>
         </Alert>
     );
 }

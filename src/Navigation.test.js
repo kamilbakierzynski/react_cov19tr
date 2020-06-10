@@ -4,7 +4,12 @@ import Navigation from './Navigation';
 
 const mockupProps = {
     local: {
-        localData: []
+        localData: [],
+    },
+    alert: {
+        alertOptions: {
+            show: false
+        }
     }
 }
 
@@ -39,7 +44,12 @@ test('expect badge with proper number', () => {
     const randomArr = Array.apply(null, { length: randomNum }).map(Number.call, Number);
     const mockupPropsWithObjects = {
         local: {
-            localData: randomArr
+            localData: randomArr,
+        },
+        alert: {
+            alertOptions: {
+                show: false
+            }
         }
     };
 

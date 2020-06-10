@@ -8,10 +8,13 @@ import { useHistory } from 'react-router-dom';
 import DetailsScreen from '../DetailsScreen/DetailsScreen';
 import EditScreen from '../EditScreen/EditScreen';
 import AddScreen from '../AddScreen/AddScreen';
+import EditLocalScreen from '../EditLocalScreen/EditLocalScreen';
 
 const DataDetails = (props) => {
     const { params } = props.match;
     const element = props.local.localData.find((element) => element.id === params.id);
+    console.log(props.local.localData);
+    console.log(params, element);
     const history = useHistory();
 
     if (params.mode === 'show') {
@@ -22,10 +25,13 @@ const DataDetails = (props) => {
         return <DetailsScreen {...element} delete={props.local.deleteFromLocal} alertProps={props.alert}/>
     }
     if (params.mode === 'add') {
-        return <AddScreen />;
+        return <AddScreen local={props.local} />;
     }
     if (params.mode === 'edit') {
         return <EditScreen {...element} local={props.local} />;
+    }
+    if (params.mode === 'edit-local') {
+        return <EditLocalScreen element={element} local={props.local} />;
     }
     history.push('/404#wrong-code');
     return null;

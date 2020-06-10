@@ -8,6 +8,7 @@ import timeFormatter from '../../helpers/timeFormatter';
 
 // Components
 import TablePlaceHolder from './TablePlaceHolder';
+import InfoBadge from '../../components/InfoBadge';
 
 const TableComponent = (props) => {
     const [sortedList, setSorted] = useState({ list: [], params: { fieldName: 'New Cases', asc: false } });
@@ -82,8 +83,8 @@ const RowComponent = (props) => {
     return (
         <tr className={clickedClass} key={currentCountry.id} onClick={clickable ? () => handleClicks(props) : null}>
             <th style={styleMousePointer}>{props.index + 1}</th>
-            <td style={styleMousePointer}>{currentCountry.country}</td>
-            <td style={styleMousePointer}>{currentCountry.cases.new}</td>
+            <td style={styleMousePointer}>{currentCountry.country}<InfoBadge country={currentCountry}/></td>
+            <td style={styleMousePointer}>{addCommas(currentCountry.cases.new)}</td>
             <td style={styleMousePointer}>{addCommas(currentCountry.cases.active)}</td>
             <td style={styleMousePointer}>{addCommas(currentCountry.cases.recovered)}</td>
             <td style={styleMousePointer}>{addCommas(currentCountry.deaths.total)}</td>

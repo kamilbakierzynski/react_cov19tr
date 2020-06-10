@@ -1,9 +1,6 @@
 // React
 import React from 'react';
 
-// Navigation
-import { useHistory } from 'react-router-dom';
-
 // Form
 import { Formik, ErrorMessage } from 'formik';
 
@@ -16,19 +13,17 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 
-
-const AddScreen = (props) => {
-    const history = useHistory();
+const EditLocalScreen = (props) => {
 
     // Initial values for Formik
     const initialValues = {
-        country: '',
-        newCases: "",
-        activeCases: "",
-        recovered: "",
-        deaths: "",
-        total: "",
-        tests: "",
+        country: props.element.country,
+        newCases: props.element.cases.new.replace('+', ''),
+        activeCases: props.element.cases.active,
+        recovered: props.element.cases.recovered,
+        deaths: props.element.deaths.total,
+        total: props.element.cases.total,
+        tests: props.element.tests.total,
     }
 
 
@@ -50,7 +45,7 @@ const AddScreen = (props) => {
     return (
         <>
             <Jumbotron style={{ marginLeft: 30, marginRight: 30 }}>
-                <h1>You are creating new entry.</h1>
+                <h1>You are editing data for {props.element.country}.</h1>
             </Jumbotron>
             <Jumbotron style={{ marginLeft: 30, marginRight: 30 }}>
                 <Formik
@@ -58,14 +53,11 @@ const AddScreen = (props) => {
 
                         // Simulate async call
                         setTimeout(() => {
-                            const id = generateUID()
-                            const newEntry = {
+                            const elementEdit = {
                                 country: values.country,
-                                id: id,
-                                localEntry: true,
                                 cases: {
                                     active: +values.activeCases,
-                                    new: `+${values.newCases}`,
+                                    new: values.newCases !== '+' ? `+${values.newCases}` : '+',
                                     recovered: +values.recovered,
                                     total: +values.total
                                 },
@@ -77,12 +69,16 @@ const AddScreen = (props) => {
                                 },
                                 time: new Date().toISOString()
                             }
-                            const newLocalData = [...props.local.localData, newEntry];
-                            props.local.overrideLocalData(newLocalData);
+                            const dataAfterEdit = props.local.localData.reduce((akum, element) => {
+                                if (element.id === props.element.id) {
+                                    return [...akum, {...element, ...elementEdit}];
+                                } else {
+                                    return [...akum, element];
+                                }
+                            }, []);
+                            props.local.overrideLocalData(dataAfterEdit);
                             // Make form active again. No need to reset the form.
                             setSubmitting(false);
-                            // Redirect to freshly created object
-                            history.push(`/local-data/show/${id}`);
 
                         }, 2000);
                     }}
@@ -219,8 +215,8 @@ const AddScreen = (props) => {
                                                 animation="border"
                                                 size="sm"
                                                 role="status"
-                                                aria-hidden="true" /> {" Adding..."}</>
-                                            : "Add"
+                                                aria-hidden="true" /> {" Saving..."}</>
+                                            : "Save"
                                         }</Button>
                                     </ButtonGroup>
                                 </Form.Group>
@@ -256,19 +252,4 @@ const validationChecker = (values) => {
     return errors;
 }
 
-const generateUID = () => {
-    const date = Date.now().toString().split('').reverse();
-    const stringPart = Math.random().toString(36).slice(-6).split('');
-
-    const output = stringPart.reduce((akum, elem, index) => {
-        const regex = /^[a-z]$/;
-        let add = elem;
-        if (regex.test(elem) && Math.random() > 0.5) add = elem.toUpperCase()
-        return akum + add + date[index];
-    }, '');
-
-    return output;
-
-}
-
-export default AddScreen;
+export default EditLocalScreen;

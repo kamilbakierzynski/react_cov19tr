@@ -12,6 +12,9 @@ import Col from 'react-bootstrap/Col';
 import addCommas from '../../helpers/addCommas';
 import sortBy from '../../helpers/sortBy';
 
+// Components
+import InfoBadge from '../../components/InfoBadge';
+
 
 const LocalTable = (props) => {
     const [sortedList, setSorted] = useState({ list: [], params: { fieldName: 'New Cases', asc: false } });
@@ -81,8 +84,8 @@ const RowComponent = (props) => {
     return (
         <tr key={currentCountry.id} id={currentCountry.id} className={styles[props.country.color]}>
             <th style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{props.index + 1}</th>
-            <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{currentCountry.country}</td>
-            <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{currentCountry.cases.new}</td>
+            <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{currentCountry.country}<InfoBadge country={currentCountry}/></td>
+            <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{addCommas(currentCountry.cases.new)}</td>
             <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{addCommas(currentCountry.cases.active)}</td>
             <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{addCommas(currentCountry.cases.recovered)}</td>
             <td style={styleMousePointer} onClick={() => props.handleClicksDetails(props)}>{addCommas(currentCountry.deaths.total)}</td>

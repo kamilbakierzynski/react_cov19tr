@@ -65,14 +65,14 @@ const LocalDataScreen = (props) => {
         <Container fluid>
             <Row className="justify-content-md-center">
                 <Col md='auto'>
-                    <ButtonGroup aria-label="Basic example">
+                    <ButtonGroup aria-label="buttons-local">
                         <Button variant="primary" onClick={() => local.syncLocalData()}>
                             Synchronize
                     </Button>
                         <Button variant="primary" onClick={() => setShowModal(true)}>
                             Filter
                     </Button>
-                        <Button variant="primary" onClick={() => history.push(`/local-data/add/${Date.now()}`)}>
+                        <Button variant="primary" onClick={() => history.push(`/local-data/add/new`)}>
                             Add
                     </Button>
                     </ButtonGroup>

@@ -50,7 +50,7 @@ test('renders aditional buttons when length is > 0', () => {
 });
 
 test('renders proper count on add button', () => {
-    const randomNum = Math.floor((Math.random() * 50));
+    const randomNum = Math.floor((Math.random() * 50) + 1);
     const testProps = {
         isLoading: false,
         countClicked: randomNum

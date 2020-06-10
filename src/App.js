@@ -28,7 +28,6 @@ function App() {
     if (isLoading) {
       const CancelToken = axios.CancelToken;
       const source = CancelToken.source();
-      console.log(localData);
 
       axios.get('https://covid-193.p.rapidapi.com/statistics',
         { cancelToken: source.token, headers: { 'x-rapidapi-host': 'covid-193.p.rapidapi.com', 'x-rapidapi-key': process.env.REACT_APP_API_KEY } })
@@ -95,8 +94,9 @@ function App() {
       const localElement = localData.find(element => element.id === onlineElement.id);
       if (localElement.blockSync) return [...akum, localElement];
       return [...akum, { ...localElement, ...onlineElement }];
-    }, [])
-    setLocalData(mixedData);
+    }, []);
+    const withLocalEntry = [...mixedData, ...localData.filter(element => element.localEntry)];
+    setLocalData(withLocalEntry);
   }
 
   const displayAlert = (title, body) => {

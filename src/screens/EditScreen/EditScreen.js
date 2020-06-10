@@ -23,12 +23,20 @@ import addCommas from '../../helpers/addCommas';
 
 const EditScreen = (props) => {
 
+    const notInitialSurpass = (props.notify && props.notWhenSurpass && props.notWhenSurpass >= props.cases.active
+        ? props.notWhenSurpass
+        : props.cases.active);
+
+    const notInitialDrop = (props.notify && props.notWhenDrop && props.notWhenDrop <= props.cases.active
+        ? props.notWhenDrop
+        : props.cases.active);
+
     // Initial values for Formik
     const initialValues = {
         note: props.note || '',
         notify: props.notify || false,
-        notWhenSurpass: props.notWhenSurpass || props.cases.active,
-        notWhenDrop: props.notWhenDrop || props.cases.active,
+        notWhenSurpass: notInitialSurpass,
+        notWhenDrop: notInitialDrop,
         blockSync: props.blockSync || false,
         color: props.color || 'Default',
         username: props.username || ''
@@ -48,6 +56,8 @@ const EditScreen = (props) => {
         );
     }
 
+    const colorValues = ['Default', 'Green', 'Red', 'Blue', 'Yellow'];
+
     return (
         <>
             <Jumbotron style={{ marginLeft: 30, marginRight: 30 }}>
@@ -63,7 +73,7 @@ const EditScreen = (props) => {
                             // Save/override data from form to proper element in localData array.
                             const newLocalData = props.local.localData.reduce((akum, element) => {
                                 if (element.id === props.id) {
-                                    const newElement = {...element, ...values};
+                                    const newElement = { ...element, ...values };
                                     return [...akum, newElement];
                                 } else {
                                     return [...akum, element];
@@ -73,7 +83,7 @@ const EditScreen = (props) => {
 
                             // Make form active again. No need to reset the form.
                             setSubmitting(false);
-                            
+
                         }, 2000);
                     }}
                     onReset={() => console.log('Reset')}
@@ -122,6 +132,7 @@ const EditScreen = (props) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.notify && !errors.notify}
+                                        checked={values.notify}
                                     />
                                     <Form.Control.Feedback>{props.notify === values.notify ? '' : "Perfect!"}</Form.Control.Feedback>
                                     <ErrorMessage name="notify">{msg => ErrorMessageBadge(msg)}</ErrorMessage>
@@ -174,6 +185,7 @@ const EditScreen = (props) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.blockSync && !errors.blockSync}
+                                        checked={values.blockSync}
                                     />
                                     <Form.Control.Feedback>{props.blockSync === values.blockSync ? '' : "Perfect!"}</Form.Control.Feedback>
                                     <ErrorMessage name="blockSync">{msg => ErrorMessageBadge(msg)}</ErrorMessage>
@@ -190,11 +202,12 @@ const EditScreen = (props) => {
                                         onBlur={handleBlur}
                                         isValid={touched.color && !errors.color}
                                         custom>
-                                        <option value="Default">Default</option>
+                                        {/* <option value="Default">Default</option>
                                         <option value="Green">Green</option>
                                         <option value="Red">Red</option>
                                         <option value="Blue">Blue</option>
-                                        <option value="Yellow">Yellow</option>
+                                        <option value="Yellow">Yellow</option> */}
+                                        {colorValues.map(element => <option value={element}>{element}</option>)}
                                     </Form.Control>
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                     <ErrorMessage name="color">{msg => ErrorMessageBadge(msg)}</ErrorMessage>

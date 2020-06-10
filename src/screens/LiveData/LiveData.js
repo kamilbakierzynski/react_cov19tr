@@ -24,7 +24,7 @@ const LiveDataScreen = (props) => {
     useEffect(() => {
         if (onlineData !== "Ładowanie") {
             const filteredList = props.onlineData.filter(element => {
-                const continents = ['All', 'South-America', 'North-America', 'Asia', 'Europe', 'Africa'];
+                const continents = ['All', 'South America', 'North America', 'Asia', 'Europe', 'Africa'];
                 const country = element.country.toLowerCase();
                 const byName = country.startsWith(modalVals.countryName.toLowerCase());
                 const byMin = element.cases.active >= modalVals.minActiveCases;

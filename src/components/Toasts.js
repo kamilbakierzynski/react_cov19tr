@@ -84,8 +84,8 @@ const ToastMaker = (props) => {
     return (
         <Toast show={true} style={{cursor: "pointer"}} onClose={() => props.handleClose(props.id)} key={props.id}>
             <Toast.Header>
-                <strong className="mr-auto" onClick={() => props.handleClick(props.id)}>{props.country}</strong>
-                <small onClick={() => props.handleClick(props.id)}>{preetifyTime(timeDiff)}</small>
+                <strong id="countryName" className="mr-auto" onClick={() => props.handleClick(props.id)}>{props.country}</strong>
+                <small id="time" onClick={() => props.handleClick(props.id)}>{preetifyTime(timeDiff)}</small>
             </Toast.Header>
             <Toast.Body onClick={() => props.handleClick(props.id)} >{body}</Toast.Body>
         </Toast>

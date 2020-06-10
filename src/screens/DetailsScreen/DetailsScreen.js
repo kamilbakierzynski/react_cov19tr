@@ -19,6 +19,7 @@ import timeFormatter from '../../helpers/timeFormatter';
 
 //Components
 import PlaceHolder from '../../components/PlaceHolder';
+import InfoBadge from '../../components/InfoBadge';
 
 
 const DetailsScreen = (props) => {
@@ -156,7 +157,9 @@ const DetailsScreen = (props) => {
                 <h1>
                     {title}
                     {onlineData !== 'Ładowanie' ? flag : null}
+
                 </h1>
+                <InfoBadge country={props} />
                 {onlineData !== "Ładowanie" && !loading
                     ? (
                         <p>
@@ -179,6 +182,9 @@ const DetailsScreen = (props) => {
                         : <p>Last actualization: {timeFormatter(props.time)}</p>
                 }
                 <Row>
+                    {props.localEntry && <Col md="auto">
+                        <Link to={`/local-data/edit-local/${props.id}`}><Button variant="warning">Edit data</Button></Link>
+                    </Col>}
                     <Col md="auto">
                         <Link to={`/local-data/edit/${props.id}`}><Button variant="primary">Edit</Button></Link>
                     </Col>
@@ -190,10 +196,10 @@ const DetailsScreen = (props) => {
             {
                 props.note !== undefined && props.note !== ''
                     ? <Jumbotron style={{ marginLeft: 30, marginRight: 30 }}>
-                    <h1>Note</h1>
-                    <i>{props.username}:</i><br />
-                    {props.note.replace(/\n/g, '<br />')}
-                        </Jumbotron>
+                        <h1>Note</h1>
+                        <i><b>{props.username}:</b></i><br />
+                        {props.note.split('\n').map(element => <>{element}<br /></>)}
+                    </Jumbotron>
                     : null
             }
             <Jumbotron style={{ marginLeft: 30, marginRight: 30 }}>
@@ -201,7 +207,7 @@ const DetailsScreen = (props) => {
                     <Col lg="3">
                         <h1>Cases:</h1>
                         <p>
-                            New: <b>{props.cases.new}</b><br />
+                            New: <b>{addCommas(props.cases.new)}</b><br />
                                 Active: <b>{addCommas(props.cases.active)}</b><br />
                                 Critical: <b>{addCommas(props.cases.critical)}</b><br />
                                 Recovered: <b>{addCommas(props.cases.recovered)}</b><br />
@@ -212,7 +218,7 @@ const DetailsScreen = (props) => {
                     <Col lg="3">
                         <h1>Deaths:</h1>
 
-                                New: <b>{props.deaths.new}</b><br />
+                                New: <b>{addCommas(props.deaths.new)}</b><br />
                                 Total: <b>{addCommas(props.deaths.total)}</b><br />
 
                     </Col>
